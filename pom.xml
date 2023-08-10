@@ -6,12 +6,28 @@
 
     <groupId>io.github.misterchangray</groupId>
     <artifactId>socket4j</artifactId>
-    <version>0.0.1</version>
+    <version>${pversion}</version>
 
     <name>socket4j</name>
     <description>a</description>
+    <packaging>pom</packaging>
     <url>https://github.com/MisterChangRay/socket4j</url>
+
+    <properties>
+        <pversion>0.0.1</pversion>
+    </properties>
     <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.7.14</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+
 
     </dependencyManagement>
     <build>
@@ -36,7 +52,9 @@
     </dependencies>
 
     <modules>
-        <module></module>
+        <module>socket4base</module>
+        <module>socket4client</module>
+        <module>socket4console</module>
     </modules>
 
 
