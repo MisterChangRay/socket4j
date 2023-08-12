@@ -35,14 +35,14 @@ public class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
     private int allIdleTime;
     @Value("${socket4j.connection.maxReceiveBytesPreSec}")
     private int maxReceiveBytesPreSec;
-    @Value("${socket4j.message.maxSendBytesPreSec}")
+    @Value("${socket4j.connection.maxSendBytesPreSec}")
     private int maxSendBytesPreSec;
     @Override
     protected void initChannel(SocketChannel nioDatagramChannel) throws Exception {
         ChannelPipeline pipeline = nioDatagramChannel.pipeline();
         pipeline.addLast(ipSecurityHandler);
         pipeline.addLast(connectionHandler);
-        // 限制每个连接每秒发送和接收流量不能大于1024字节
+        // 限制每个连接每秒发送和接收流量不能大于设置值
         pipeline.addLast(new ChannelTrafficShapingHandler(maxSendBytesPreSec,maxReceiveBytesPreSec,1000));
         // 心跳监测
         pipeline.addLast("handler",new IdleStateHandler(readerIdleTime, writerIdleTime, allIdleTime, TimeUnit.SECONDS));

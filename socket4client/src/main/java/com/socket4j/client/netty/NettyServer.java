@@ -1,5 +1,6 @@
 package com.socket4j.client.netty;
 
+import com.socket4j.base.util.CustomThreadFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.com.socket4j.base.util.CustomThreadFactory;
 
 @Service
 public class NettyServer {
@@ -35,7 +35,7 @@ public class NettyServer {
     @Autowired
     NettyChannelInitializer nettyChannelInitializer;
 
-    public void startTCPServer(int port) {
+    public void start() {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(10);
         EventLoopGroup workerGroup = new NioEventLoopGroup(coreSize * 8 ,
                 new CustomThreadFactory("socket4j-worker-thread"));
@@ -47,11 +47,11 @@ public class NettyServer {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .channel(NioServerSocketChannel.class)
                     .childHandler(nettyChannelInitializer)
-                    .option(ChannelOption.TCP_NODELAY, true)
+                    .childOption(ChannelOption.TCP_NODELAY, true)
                     .option((ChannelOption.SO_BACKLOG), SO_BACKLOG)
                     .option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(RCVBUF_ALLOCATOR))
                     .option(ChannelOption.SO_RCVBUF, SO_RCVBUF)
-                    .option(ChannelOption.SO_SNDBUF, SO_SNDBUF)
+                    .childOption(ChannelOption.SO_SNDBUF, SO_SNDBUF)
                     .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)

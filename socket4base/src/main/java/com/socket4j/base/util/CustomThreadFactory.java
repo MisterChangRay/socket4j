@@ -1,4 +1,6 @@
-package java.com.socket4j.base.util;
+
+package com.socket4j.base.util;
+
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
