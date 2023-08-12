@@ -3,3 +3,22 @@ netty:
   server:
    port: 3700
 
+socket4j:
+  netty:
+    soBacklog: 1024
+    revbufAllocator: 512
+    soRcvbuf: 512
+    soSndbuf: 512
+    portStart: 7500
+    portEnd: 7510
+  message:
+    readerIdleTime: 300
+    writerIdleTime: 0
+    allIdleTime: 0
+  connections:
+    # 单连接每秒最大接收字节数
+    maxReceiveBytesPreSec: 1024
+    # 单连接每秒最大发送字节数
+    maxSendBytesPreSec: 1024
+
+
