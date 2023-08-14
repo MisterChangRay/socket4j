@@ -4,13 +4,19 @@ netty:
    port: 3700
 
 socket4j:
+  client:
+    id: 1
+    name: tcpserver1
+  console:
+    ip: 127.0.0.1
+    port: 7500
   netty:
     soBacklog: 1024
     revbufAllocator: 512
     soRcvbuf: 512
     soSndbuf: 512
-    portStart: 7500
-    portEnd: 7510
+    portStart: 7501
+    portEnd: 7511
   message:
     readerIdleTime: 300
     writerIdleTime: 0

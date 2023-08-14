@@ -1,25 +1,28 @@
 package com.socket4j.client.netty.channel;
 
-import io.netty.channel.ChannelHandler;
+import com.socket4j.base.pojo.monitor.ClientInfo;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope("prototype")
-public class ConnectionHandler implements ChannelHandler {
+public class ConnectionHandler extends ChannelInboundHandlerAdapter {
+    @Autowired
+    ClientInfo clientInfo;
+
     @Override
-    public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelRegistered(ctx);
+        clientInfo.getConnectionCount().incrementAndGet();
 
     }
 
     @Override
-    public void handlerRemoved(ChannelHandlerContext channelHandlerContext) throws Exception {
-
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable throwable) throws Exception {
-
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelUnregistered(ctx);
+        clientInfo.getConnectionCount().decrementAndGet();
     }
 }
